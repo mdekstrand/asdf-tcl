@@ -2,10 +2,8 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for tcl.
-GH_REPO="https://www.tcl.tk"
 TOOL_NAME="tcl"
-TOOL_TEST="tclsh -version"
+# TOOL_TEST="tclsh -version"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
