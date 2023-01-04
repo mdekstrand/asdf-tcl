@@ -16,3 +16,5 @@ if ! make install; then
   rm -rf "$ASDF_INSTALL_PATH"
   fail "an error occurred installing"
 fi
+
+ln -s tclsh8.6 "$ASDF_DOWNLOAD_PATH/bin/tclsh"
