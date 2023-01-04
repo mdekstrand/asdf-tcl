@@ -5,7 +5,7 @@ set -euo pipefail
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
-if [ "$install_type" != "version" ]; then
+if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
   fail "asdf-$TOOL_NAME supports release installs only"
 fi
 
