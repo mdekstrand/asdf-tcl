@@ -17,4 +17,4 @@ if ! make install; then
   fail "an error occurred installing"
 fi
 
-ln -s tclsh8.6 "$ASDF_DOWNLOAD_PATH/bin/tclsh"
+ln -s tclsh8.6 "$ASDF_INSTALL_PATH/bin/tclsh"
