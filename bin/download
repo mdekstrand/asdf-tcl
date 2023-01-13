@@ -28,9 +28,11 @@ mkdir "$ASDF_DOWNLOAD_PATH/tcl"
 curl "${curl_opts[@]}" -o "$TCL_RELFILE" "$TCL_BASEURL$TCL_ARCHIVE"
 tar -xzf "$TCL_RELFILE" -C "$ASDF_DOWNLOAD_PATH/tcl" --strip-components=1 || fail "Could not extract $TCL_RELFILE"
 
+mkdir "$ASDF_DOWNLOAD_PATH/tcllib"
 curl "${curl_opts[@]}" -o "$TCLLIB_RELFILE" "$TCLLIB_BASEURL$TCLLIB_ARCHIVE"
 tar -xzf "$TCLLIB_RELFILE" -C "$ASDF_DOWNLOAD_PATH/tcllib" --strip-components=1 || fail "Could not extract $TCLLIB_RELFILE"
 
+mkdir "$ASDF_DOWNLOAD_PATH/critcl"
 curl "${curl_opts[@]}" -o "$CRITCL_RELFILE" "$CRITCL_URL"
 tar -xzf "$CRITCL_RELFILE" -C "$ASDF_DOWNLOAD_PATH/critcl" --strip-components=1 || fail "Could not extract $CRITCL_RELFILE"
 
