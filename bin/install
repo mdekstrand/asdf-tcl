@@ -9,12 +9,32 @@ if [ "$ASDF_INSTALL_TYPE" != "version" ]; then
   fail "asdf-$TOOL_NAME supports release installs only"
 fi
 
-cd "$ASDF_DOWNLOAD_PATH/unix"
+echo "configuring and installing TCL"
+cd "$ASDF_DOWNLOAD_PATH/tcl/unix"
 ./configure --prefix="$ASDF_INSTALL_PATH"
 make
 if ! make install; then
   rm -rf "$ASDF_INSTALL_PATH"
-  fail "an error occurred installing"
+  fail "an error occurred installing TCL"
 fi
 
 ln -s tclsh8.6 "$ASDF_INSTALL_PATH/bin/tclsh"
+
+echo "installing tcllib"
+cd "$ASDF_DOWNLOAD_PATH/tcllib"
+"$ASDF_INSTALL_PATH/bin/tclsh" installer.tcl -no-examples -no-html -no-nroff \
+  -pkg-path "$ASDF_INSTALL_PATH/lib/tcllib" \
+  -app-path "$ASDF_INSTALL_PATH/bin" \
+  -no-wait -no-gui
+if [ "$?" -ne 0 ]; then
+  rm -rf "$ASDF_INSTALL_PATH"
+  fail "could not install tcllib"
+fi
+
+echo "installing critcl"
+cd "$ASDF_DOWNLOAD_PATH/critcl"
+"$ASDF_INSTALL_PATH/bin/tclsh" build.tcl install --prefix "$ASDF_INSTALL_PATH"
+if [ "$?" -ne 0 ]; then
+  rm -rf "$ASDF_INSTALL_PATH"
+  fail "could not install critcl"
+fi

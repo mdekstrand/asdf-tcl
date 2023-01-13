@@ -8,15 +8,30 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
-ARCHIVE="tcl$ASDF_INSTALL_VERSION-src.tar.gz"
-BASEURL="https://prdownloads.sourceforge.net/tcl/"
+TCL_ARCHIVE="tcl$ASDF_INSTALL_VERSION-src.tar.gz"
+TCL_BASEURL="https://prdownloads.sourceforge.net/tcl/"
+TCL_RELFILE="$ASDF_DOWNLOAD_PATH/$TCL_ARCHIVE"
 
-release_file="$ASDF_DOWNLOAD_PATH/$ARCHIVE"
+TCLLIB_VERSION="1.21"
+TCLLIB_ARCHIVE="tcllib-$TCLLIB_VERSION.tar.gz"
+TCLLIB_BASEURL=https://core.tcl-lang.org/tcllib/uv/
+TCLLIB_RELFILE="$ASDF_DOWNLOAD_PATH/$TCLLIB_ARCHIVE"
 
-curl "${curl_opts[@]}" -o "$release_file" "$BASEURL$ARCHIVE"
+CRITCL_VERSION="3.2"
+CRITCL_ARCHIVE="critcl-$CRITCL_VERSION.tar.gz"
+CRITCL_URL="https://github.com/andreas-kupries/critcl/archive/refs/tags/$CRITCL_VERSION.tar.gz"
+CRITCL_RELFILE="$ASDF_DOWNLOAD_PATH/$CRITCL_ARCHIVE"
 
-#  Extract contents of tar.gz file into the download directory
-tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 
-# Remove the tar.gz file since we don't need to keep it
-rm "$release_file"
+# download TCL
+mkdir "$ASDF_DOWNLOAD_PATH/tcl"
+curl "${curl_opts[@]}" -o "$TCL_RELFILE" "$TCL_BASEURL$TCL_ARCHIVE"
+tar -xzf "$TCL_RELFILE" -C "$ASDF_DOWNLOAD_PATH/tcl" --strip-components=1 || fail "Could not extract $TCL_RELFILE"
+
+curl "${curl_opts[@]}" -o "$TCLLIB_RELFILE" "$TCLLIB_BASEURL$TCLLIB_ARCHIVE"
+tar -xzf "$TCLLIB_RELFILE" -C "$ASDF_DOWNLOAD_PATH/tcllib" --strip-components=1 || fail "Could not extract $TCLLIB_RELFILE"
+
+curl "${curl_opts[@]}" -o "$CRITCL_RELFILE" "$CRITCL_URL"
+tar -xzf "$CRITCL_RELFILE" -C "$ASDF_DOWNLOAD_PATH/critcl" --strip-components=1 || fail "Could not extract $CRITCL_RELFILE"
+
+ls -l "$ASDF_DOWNLOAD_PATH"
